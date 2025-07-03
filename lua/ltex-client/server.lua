@@ -9,7 +9,7 @@ end
 
 -- Get ltex language server
 local function get_client()
-	local _, client = next(vim.lsp.get_active_clients({ name = "ltex" }))
+	local _, client = next(vim.lsp.get_clients({ name = "ltex" }))
 	if client == nil then
 		vim.notify("Ltex-ls is not loaded for the current buffer", vim.log.levels.WARN)
 	end
@@ -24,6 +24,9 @@ function Server.update_configuration(values)
 	local client = get_client()
 	if client == nil then
 		return
+	end
+	if client.config.settings == nil then
+		client.config.settings = {}
 	end
 	if client.config.settings.ltex == nil then
 		client.config.settings.ltex = {}
